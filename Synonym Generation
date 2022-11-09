@@ -1,18 +1,25 @@
 
 同义词是表示相同概念并且在许多上下文/场景中可以互换使用的词。
 
-在业务中，往往需要通过自然语言处理(NLP)自动理解和分析单词的含义以及预处理文本数据。这本身就非常挑战。我们经常需要使用词典，将文本数据中的文本映射到词典的词汇，这反过来又帮助我们理解这些词之间的关系。著名的WordNet就提供独特的语义网络帮助我们找到词关系、同义词、语法等。这有助于支持 NLP任务，如情感分析、自动语言翻译、文本相似性等。Wordnet最重要的功能是，WordNet对通用领域里的概念词，都提供了同义词集，称为概念的Synset。WordNet在通用领域里构建了语义网络。我们的知识图谱提供在业务领域以业务概念为核心构建领域的独特的同义词的技术框架，以支持更精准的NLP任务和更智能的用户体验。
+在业务中，往往需要通过自然语言处理(NLP)自动理解和分析单词的含义以及预处理文本数据。这本身就非常挑战。我们经常需要使用词典，将文本数据中的文本映射到词典的词汇，这反过来又帮助我们理解这些词之间的关系。著名的WordNet就提供独特的语义网络帮助我们找到词关系、同义词、语法等。这有助于支持 NLP任务，如情感分析、自动语言翻译、文本相似性等。
+Wordnet最重要的功能是，WordNet对通用领域里的概念词，都提供了同义词集，称为概念的Synset。WordNet在通用领域里构建了语义网络。我们的知识图谱提供在业务领域以业务概念为核心构建领域的独特的同义词的技术框架，以支持更精准的NLP任务和更智能的用户体验。
 
-以我们业务领域体系中所有的概念作为标准词汇，通过M1: 引入通用同义词，M2: 形似同义词构建，M3: 意似同义词构建，M4: 原子同义词构建，M5组合同义词构建，M6模板化同义词构建，以及M7：同义词使用自动化验证，再结合专家认证的方法，快速，有效地生成业务概念的同义词群。我们设计的同义词生成方法可以成为工业体系中一套通用的构造技术。
+以我们业务领域体系中所有的概念作为标准词汇，通过M1: 引入通用同义词，M2: 形似同义词构建，M3: 意似同义词构建，M4: 原子同义词构建，M5组合同义词构建，M6模板化同义词构建，以及M7：同义词使用自动化验证，再结合专家认证的方法，快速，有效地生成业务概念的同义词群。
+我们设计的这套同义词生成方法可以成为工业体系中一套通用的同义词构造技术。
 
+M1: 
+通用同义词: 引入通用领域的同义词词词典，如国家的ISO，中国省份的简称等。
+M2: 
+形似同义词构建，对于一个概念，扫描所有文档，找到在与之形似的近义词，如可通过编辑距离查找在字符上相似的近义词。
+M3: 
+意似近义词构建，在语料上训练语言模型，如w2v,基于向量相似度，计算概念与之意似的同义词。
+M4: 
+原子同义词构建，确定概念的原子词汇，然后通过M1或者M3的形式生成原子词汇的近义词，然后用原子词的同义词替换概念中的原子词，找到概念的同义词。
+M5: 
+组合同义词构建，如果概念中有多个原子词汇，则通过组合原子词汇的同义词生成概念的同义词。
+M6: 
+模板化同义词构建，基于特性的模板或者规则生成概念的同义词。
+M7: 
+同义词验证，构建的同义词在语料中进行扫描。查看是否在语料中有词概念，可帮助过滤一部分未在语料中出现的候选同义词，所有候选的同义词的范围，一定程度上节省人力成本。
 
-M1: Public Domain DataExtraction: For public-domain synonyms, abbreviations, and formal names of abbreviations, we need to identify the synonym data source and conduct
-extraction.
-M2: Similarity-based Matching: For a concept, go through all documents, identify the phrases that are similar to the concept, in form.
-M3: Relevant Term Identification: Train a language model (with Word Embedding) on corpus. Based on the vector distance, identify the relevant terms of a concept, then manually check if a relevant term is a synonym of the concept In the final development.
-M4: Atomic-Term Identification: Identify the simple atomic terms in a concept, use M1 and/or M3 to generate the synonyms for the atomic term, and use them to replace the atomic term’s position in the concept.
-M5: Composition: If a concept has more than one atomic-term which has synonyms, combine their synonyms to generate composed synonyms for the concept.
-M6: Rule or Pattern-based Synonym construction: based on specific rules to construct synonyms. 
-M7: Synonym Validation. It is not a synonym generation method. It is method used to run the generated candidate synonym with all documents, to find if there is any matches. Matches indicate good opportunities of validation。 
-
-通过同义词加入，TopicNet里的每一个概念都形成了Synset，实际上初步成为了我们业务领域里的WordNet，同义词群在搜索引流等业务中发挥作用，并可支持其他 NLP 任务，如提高搜索的智能化程度，推荐的精准性和数据分析、挖掘的能力等。             
+通过同义词加入，图谱里的每一个概念都形成了Synset，实际上初步成为了我们业务领域里的WordNet，同义词群在搜索引流等业务中发挥作用，并可支持其他 NLP 任务，如提高搜索的智能化程度，推荐的精准性和数据分析、挖掘的能力等。             
